@@ -75,4 +75,5 @@ is one thing to consider checking.
 
 ## Pull Requests
 
-Write me
+Pull requests from collaborators should never be submitted directly to `main`, always to `dev`.
+Periodically we will create a versioned release and merge `dev` with `main`.
