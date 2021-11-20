@@ -89,8 +89,6 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slwu89/DSDrive">DSDrive</a></span><span class="op">)</span></code></pre></div>
 <p>Thank you for taking the time to contribute to DSDrive (d. suzkuii gene drive simulation).</p>
 <div id="issues" class="section level2">
 <h2 class="hasAnchor">
@@ -98,8 +96,8 @@
 <p>If you find a bug, have a question about how to use a feature that does not have sufficient documentation, or have a suggestion for improvement, please leave an issue at our GitHub repo.</p>
 <p>For bug reports please include:</p>
 <ul>
-<li>Micro-MoB version</li>
-<li>Operating System</li>
+<li>Package version</li>
+<li>Operating system</li>
 <li>R version</li>
 <li>Steps to recreate</li>
 <li>Expected behaviour</li>
@@ -122,7 +120,7 @@
 <li>
 <code>hotfix</code>: the difference between a <code>bug/*</code> and <code>hotfix/*</code> branch is <code>hotfix</code> is for small quick fixes (misspellings, incorrect arguments, etc.) and are short-lived. After being merged with <code>dev</code>, they can be deleted.</li>
 </ul>
-<p>We periodically merge <code>dev</code> into <code>master</code> for small release updates. These releases will appear on the <a href="https://github.com/dd-harp/MicroMoB/releases">GitHub releases page</a>.</p>
+<p>We periodically merge <code>dev</code> into <code>master</code> for small release updates. These releases will appear on the <a href="https://github.com/slwu89/DSDrive/releases">GitHub releases page</a>.</p>
 </div>
 <div id="continuous-integration" class="section level2">
 <h2 class="hasAnchor">
@@ -130,7 +128,7 @@
 <p>We use GitHub Actions as our continuous integration platform to run workflows. The workflows we use are from <a href="https://github.com/r-lib/actions">r-lib/actions</a> for R packages.</p>
 <p>We run three types of workflows.</p>
 <p><a href="https://github.com/r-lib/actions/blob/master/examples/check-standard.yaml">R CMD check</a> runs during any push to <code>[main, feat/*, hotfix/*, bug/*, dev]</code> branches.</p>
-<p><a href="https://github.com/r-lib/actions/blob/master/examples/test-coverage.yaml">Test coverage</a> runs during pull requests to <code>[main, dev]</code> and uses our <a href="https://app.codecov.io/gh/dd-harp/MicroMoB">codecov.io integration</a> for checking test coverage.</p>
+<p><a href="https://github.com/r-lib/actions/blob/master/examples/test-coverage.yaml">Test coverage</a> runs during pull requests to <code>[main, dev]</code> and uses our <a href="https://app.codecov.io/gh/slwu89/DSDrive">codecov.io integration</a> for checking test coverage.</p>
 <p>Finally, <a href="https://github.com/r-lib/actions/blob/master/examples/pkgdown.yaml">pkgdown</a> only runs on pushes to <code>main</code>, which will occur when <code>dev</code> is merged with <code>main</code> periodically.</p>
 <p>Please note that sometimes hard to diagnose bugs can be due to out of date workflows. If you find a strange or unusual bug when pushing to a branch, this is one thing to consider checking.</p>
 </div>
@@ -138,12 +136,12 @@
 <h2 class="hasAnchor">
 <a href="#code-organisation" class="anchor"></a>Code organisation</h2>
 <p><em>R/hello.R</em> - stuff</p>
-<p><em>tests/</em> - tests for <em>DSDrive</em></p>
+<p><em>tests/</em> - tests for <strong>DSDrive</strong></p>
 </div>
 <div id="pull-requests" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pull-requests" class="anchor"></a>Pull Requests</h2>
-<p>Write me</p>
+<p>Pull requests from collaborators should never be submitted directly to <code>main</code>, always to <code>dev</code>. Periodically we will create a versioned release and merge <code>dev</code> with <code>main</code>.</p>
 </div>
   </div>
 
