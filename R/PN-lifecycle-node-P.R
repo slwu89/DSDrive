@@ -39,7 +39,7 @@ spn_P_lifecycle_node <- function(params, cube) {
   if (nE < 2 || nL < 2 || nP < 2 || nA < 2) {
     warning(
       paste0(
-        "A shape parameter ('nE', 'nL', or 'nP') of 1 implies ",
+        "A shape parameter ('nE', 'nL', 'nA', or 'nP') of 1 implies ",
         "exponentially distributed dwell times in that compartment."
       )
     )
