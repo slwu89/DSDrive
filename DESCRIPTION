@@ -4,7 +4,9 @@ Title: What the Package Does (Title Case)
 Version: 0.1.0
 Authors@R: c(
   person("Sean L.", "Wu", email = "slwood89@gmail.com",
-                  role = c("aut", "cre")))
+                  role = c("aut", "cre")), 
+  person("Agastya", "Mondal", email = "agastya_mondal@berkeley.edu ",
+                  role = c("aut")))
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
