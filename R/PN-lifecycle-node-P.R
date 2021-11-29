@@ -60,7 +60,7 @@ spn_P_lifecycle_node <- function(params, cube) {
     file.path("U", 1:nA, "_", rep(g, each = nA), fsep = "")
   
   females <-
-    c(sapply(1:nA, function(i) { file.path("F", i, "_", rep(g, each = nG), "_", g, fsep = "") }))
+    c(vapply(X = 1:nA, FUN = function(i) { file.path("F", i, "_", rep(g, each = nG), "_", g, fsep = "") }, FUN.VALUE = character(nG^2), USE.NAMES = FALSE))
   
   males <- file.path("M", 1:nA, "_", rep(g, each = nA), fsep = "")
   
