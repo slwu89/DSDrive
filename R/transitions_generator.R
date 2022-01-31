@@ -5,8 +5,8 @@
 #' @export
 generate_oviposition_transitions <- function(cube, u) {
 
-  stopifnot(length(u) > 0)
-  stopifnot(storage.mode(u) == "character")
+  stopifnot(length(u) > 0L)
+  stopifnot(is.character(u))
   stopifnot(inherits(cube, "list"))
 
   # possible oviposition events
@@ -24,3 +24,7 @@ generate_oviposition_transitions <- function(cube, u) {
   return(oviposit_transitions)
 }
 
+
+generate_egg_advancement_transitions <- function(cube, u, nE) {
+
+}
