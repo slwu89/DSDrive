@@ -35,17 +35,14 @@ test_that("oviposition transitions work", {
 })
 
 
-# labels <- c("E1_HH->D", "E1_HW->D", "E1_HR->D", "E1_WW->D", "E1_WR->D",
-#             "E1_RR->D", "E2_HH->D", "E2_HW->D", "E2_HR->D", "E2_WW->D", "E2_WR->D", "E2_RR->D")
-
-test_that("egg advancement transitions work", {
+test_that("egg advancement transitions work, nE = 2", {
 
   cube <- MGDrivE::cubeHoming1RA()
 
   nE <- 2
-  nL <- 1
+  nL <- 2
   nP <- 2
-  nA <- 1
+  nA <- 2
   params <- list(nE=nE,nL=nL,nP=nP,nA=nA)
 
   # genetic states
@@ -69,6 +66,129 @@ test_that("egg advancement transitions work", {
 
   expect_equal(length(egg_adv_trans), 12L)
   expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$label})), labels)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$s})), input_tokens)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$s_w})), input_weight)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$o})), output_tokens)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$o_w})), output_weight)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$class})), class_exp)
+
+})
+
+test_that("egg advancement transitions work, nE = 1", {
+
+  cube <- MGDrivE::cubeHoming1RA()
+
+  nE <- 1
+  nL <- 2
+  nP <- 2
+  nA <- 2
+  params <- list(nE=nE,nL=nL,nP=nP,nA=nA)
+
+  # genetic states
+  g <- cube$genotypesID
+  nG <- cube$genotypesN
+
+  spn_p <- spn_P_lifecycle_node(params = params,cube = cube)
+  u = spn_p$u
+
+  egg_adv_trans <- generate_egg_advancement_transitions(cube = cube, u = u, nE = nE)
+
+  # trans <- MGDrivE2:::base_T_mosy(u = u, nE = nE, nL = nL,nP = nP,nG = nG,g = g, node_id = NULL,T_index = 1)
+
+  labels <- c("E1_HH->L1_HH", "E1_HW->L1_HW", "E1_HR->L1_HR", "E1_WW->L1_WW",
+              "E1_WR->L1_WR", "E1_RR->L1_RR")
+
+  input_tokens <- 1:6
+  input_weight <- rep(1, 6L)
+  output_tokens <- c(7, 9, 11, 13, 15, 17)
+  output_weight <- rep(1, 6L)
+  class_exp <- rep("egg_adv", 6L)
+
+  expect_equal(length(egg_adv_trans), 6L)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$label})), labels)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$s})), input_tokens)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$s_w})), input_weight)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$o})), output_tokens)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$o_w})), output_weight)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$class})), class_exp)
+
+})
+
+
+test_that("egg mortality transitions work, nE = 2", {
+
+  cube <- MGDrivE::cubeHoming1RA()
+
+  nE <- 2
+  nL <- 2
+  nP <- 2
+  nA <- 2
+  params <- list(nE=nE,nL=nL,nP=nP,nA=nA)
+
+  # genetic states
+  g <- cube$genotypesID
+  nG <- cube$genotypesN
+
+  spn_p <- spn_P_lifecycle_node(params = params,cube = cube)
+  u = spn_p$u
+
+  egg_adv_trans <- generate_egg_mortality_transitions(cube = cube, u = u, nE = nE)
+
+  # trans <- MGDrivE2:::base_T_mosy(u = u, nE = nE, nL = nL,nP = nP,nG = nG,g = g, node_id = NULL,T_index = 1)
+
+  labels <- c("E1_HH->D", "E1_HW->D", "E1_HR->D", "E1_WW->D", "E1_WR->D",
+              "E1_RR->D", "E2_HH->D", "E2_HW->D", "E2_HR->D", "E2_WW->D", "E2_WR->D", "E2_RR->D")
+
+  input_tokens <- c(1, 3, 5, 7, 9, 11, 2, 4, 6, 8, 10, 12)
+  input_weight <- rep(1, 12L)
+  output_tokens <- rep(NaN, 12L)
+  output_weight <- rep(NaN, 12L)
+  class_exp <- rep("egg_mort", 12L)
+
+  expect_equal(length(egg_adv_trans), 12L)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$label})), labels)
+
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$s})), input_tokens)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$s_w})), input_weight)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$o})), output_tokens)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$o_w})), output_weight)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$class})), class_exp)
+
+})
+
+
+test_that("egg mortality transitions work, nE = 1", {
+
+  cube <- MGDrivE::cubeHoming1RA()
+
+  nE <- 1
+  nL <- 2
+  nP <- 2
+  nA <- 2
+  params <- list(nE=nE,nL=nL,nP=nP,nA=nA)
+
+  # genetic states
+  g <- cube$genotypesID
+  nG <- cube$genotypesN
+
+  spn_p <- spn_P_lifecycle_node(params = params,cube = cube)
+  u = spn_p$u
+
+  egg_adv_trans <- generate_egg_mortality_transitions(cube = cube, u = u, nE = nE)
+
+  trans <- MGDrivE2:::base_T_mosy(u = u, nE = nE, nL = nL,nP = nP,nG = nG,g = g, node_id = NULL,T_index = 1)
+
+  labels <- c("E1_HH->D", "E1_HW->D", "E1_HR->D", "E1_WW->D", "E1_WR->D", "E1_RR->D")
+
+  input_tokens <- 1:6
+  input_weight <- rep(1, 6L)
+  output_tokens <- rep(NaN, 6L)
+  output_weight <- rep(NaN, 6L)
+  class_exp <- rep("egg_mort", 6L)
+
+  expect_equal(length(egg_adv_trans), 6L)
+  expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$label})), labels)
+
   expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$s})), input_tokens)
   expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$s_w})), input_weight)
   expect_equal(unlist(lapply(X = egg_adv_trans, function(x) {x$o})), output_tokens)

@@ -66,20 +66,20 @@ make_transition_egg_adv <- function(T_index, u, e_gen, stage1, stage2 = NULL){
 
 #' @title transition for egg mortality
 #' @noRd
-make_transition_egg_mort <- function(T_index,u,e_gen,stage,node=NULL){
+make_transition_egg_mort <- function(T_index, u, e_gen, stage){
 
   # tokens required
-  etoken <- paste0(c(paste0("E",stage),e_gen,node),collapse = "_")
+  input_token <- paste0("E", stage, "_", e_gen)
 
   # no tokens are produced
 
   # t: {index into v, label, input arcs/weights, output arcs/weights}
   t <- list()
   t$vix <- T_index # where we can find this t in v
-  t$label <- paste0(etoken,"->D") # name of this t (corresponds to v)
+  t$label <- paste0(input_token,"->D") # name of this t (corresponds to v)
 
   # requires a egg token
-  t$s <- match(x = etoken,table = u)
+  t$s <- which(u == input_token)
   t$s_w <- 1
 
   # no tokens produced

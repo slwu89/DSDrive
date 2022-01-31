@@ -17,11 +17,10 @@ generate_oviposition_transitions <- function(cube, u) {
   transition_index_ovi <- 1:length(cube_nonzero)
 
   # generate transitions
-  oviposit_transitions <- mapply(FUN = function(g, trans_idx) {
+  mapply(FUN = function(g, trans_idx) {
     make_transition_ovi(T_index = trans_idx, u = u, f_gen = cube$genotypesID[g[1]], m_gen = cube$genotypesID[g[2]], o_gen = cube$genotypesID[g[3]])
   }, g = cube_nonzero, trans_idx = transition_index_ovi, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 
-  return(oviposit_transitions)
 }
 
 
@@ -45,7 +44,7 @@ generate_egg_advancement_transitions <- function(cube, u, nE) {
   genotype <- rep(x = g, times = nE)
 
   # generate transitions
-  egg_adv_transitions <- mapply(FUN = function(g, e_stage) {
+  mapply(FUN = function(g, e_stage) {
     if (e_stage == nE) {
       stage2 <- NULL
     } else {
@@ -54,6 +53,31 @@ generate_egg_advancement_transitions <- function(cube, u, nE) {
     make_transition_egg_adv(T_index = NA, u = u, e_gen = g, stage1 = e_stage, stage2 = stage2)
   }, g = genotype, e_stage = egg_stage, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 
-  return(egg_adv_transitions)
+}
+
+
+#' @title Generate egg mortality transitions
+#' @description Generates egg mortality transitions for a single node
+#' @param cube an inheritance cube (see [MGDrivE::cubeHomingDrive] for an example)
+#' @param u character vector of places
+#' @param nE number of egg stages (shape parameter)
+#' @export
+generate_egg_mortality_transitions <- function(cube, u, nE) {
+
+  stopifnot(length(u) > 0L)
+  stopifnot(is.character(u))
+  stopifnot(inherits(cube, "list"))
+
+  g <- cube$genotypesID
+  nG <- cube$genotypesN
+
+  # states to loop over
+  egg_stage <- rep(x = 1:nE, each = nG)
+  genotype <- rep(x = g, times = nE)
+
+  # generate transitions
+  mapply(FUN = function(g, e_stage) {
+    make_transition_egg_mort(T_index = NA, u = u, e_gen = g, stage = e_stage)
+  }, g = genotype, e_stage = egg_stage, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 
 }
