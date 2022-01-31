@@ -60,7 +60,7 @@ test_that("egg advancement transitions work, nE = 2", {
 
   input_tokens <- c(1, 3, 5, 7, 9, 11, 2, 4, 6, 8, 10, 12)
   input_weight <- rep(1, 12L)
-  output_tokens <- c(2, 4, 6, 8, 10, 12, 13, 14, 15, 16, 17, 18)
+  output_tokens <- c(2, 4, 6, 8, 10, 12, 13, 15, 17, 19, 21, 23)
   output_weight <- rep(1, 12L)
   class_exp <- rep("egg_adv", 12L)
 
