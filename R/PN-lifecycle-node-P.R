@@ -37,33 +37,31 @@ spn_P_lifecycle_node <- function(params, cube) {
   nP <- params$nP
   nA <- params$nA
   if (nE < 2 || nL < 2 || nP < 2 || nA < 2) {
-    warning(
-      paste0(
-        "A shape parameter ('nE', 'nL', 'nA', or 'nP') of 1 implies ",
-        "exponentially distributed dwell times in that compartment."
-      )
+    cat(
+      "A shape parameter ('nE', 'nL', 'nA', or 'nP') of 1 implies ",
+      "exponentially distributed dwell times in that compartment.\n"
     )
   }
-  
+
   # genetic information
   nG <- cube$genotypesN
   g <- cube$genotypesID
-  
+
   # setup place names
   eggs <- file.path("E", 1:nE, "_", rep(g, each = nE), fsep = "")
-  
+
   larvae <- file.path("L", 1:nL, "_", rep(g, each = nL), fsep = "")
-  
+
   pupae <- file.path("P", 1:nP, "_", rep(g, each = nP), fsep = "")
-  
+
   females_unmated <-
     file.path("U", 1:nA, "_", rep(g, each = nA), fsep = "")
-  
+
   females <-
     c(vapply(X = 1:nA, FUN = function(i) { file.path("F", i, "_", rep(g, each = nG), "_", g, fsep = "") }, FUN.VALUE = character(nG^2), USE.NAMES = FALSE))
-  
+
   males <- file.path("M", 1:nA, "_", rep(g, each = nA), fsep = "")
-  
+
   # indices of states
   ix <- list()
   ix$egg <-
@@ -112,13 +110,13 @@ spn_P_lifecycle_node <- function(params, cube) {
       byrow = F,
       dimnames = list(1:nA, g)
     )
-  
+
   # places (u)
   u <- c(eggs, larvae, pupae, females_unmated, females, males)
-  
+
   # return list of places
   #  make ix a list to match network version
   return(list("ix" = list(ix),
               "u" = u))
-  
+
 }

@@ -25,6 +25,35 @@ generate_oviposition_transitions <- function(cube, u) {
 }
 
 
+#' @title Generate egg advancement transitions
+#' @description Generates egg advancement transitions for a single node
+#' @param cube an inheritance cube (see [MGDrivE::cubeHomingDrive] for an example)
+#' @param u character vector of places
+#' @param nE number of egg stages (shape parameter)
+#' @export
 generate_egg_advancement_transitions <- function(cube, u, nE) {
+
+  stopifnot(length(u) > 0L)
+  stopifnot(is.character(u))
+  stopifnot(inherits(cube, "list"))
+
+  g <- cube$genotypesID
+  nG <- cube$genotypesN
+
+  # states to loop over
+  egg_stage <- rep(x = 1:nE, each = nG)
+  genotype <- rep(x = g, times = nE)
+
+  # generate transitions
+  egg_adv_transitions <- mapply(FUN = function(g, e_stage) {
+    if (e_stage == nE) {
+      stage2 <- NULL
+    } else {
+      stage2 <- e_stage + 1L
+    }
+    make_transition_egg_adv(T_index = NA, u = u, e_gen = g, stage1 = e_stage, stage2 = stage2)
+  }, g = genotype, e_stage = egg_stage, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+
+  return(egg_adv_transitions)
 
 }
