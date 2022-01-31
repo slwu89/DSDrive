@@ -176,7 +176,7 @@ test_that("egg mortality transitions work, nE = 1", {
 
   egg_adv_trans <- generate_egg_mortality_transitions(cube = cube, u = u, nE = nE)
 
-  trans <- MGDrivE2:::base_T_mosy(u = u, nE = nE, nL = nL,nP = nP,nG = nG,g = g, node_id = NULL,T_index = 1)
+  # trans <- MGDrivE2:::base_T_mosy(u = u, nE = nE, nL = nL,nP = nP,nG = nG,g = g, node_id = NULL,T_index = 1)
 
   labels <- c("E1_HH->D", "E1_HW->D", "E1_HR->D", "E1_WW->D", "E1_WR->D", "E1_RR->D")
 
