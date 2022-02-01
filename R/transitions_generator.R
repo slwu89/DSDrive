@@ -17,10 +17,11 @@ generate_oviposition_transitions <- function(cube, u) {
   transition_index_ovi <- 1:length(cube_nonzero)
 
   # generate transitions
-  mapply(FUN = function(g, trans_idx) {
+  transitions <- mapply(FUN = function(g, trans_idx) {
     make_transition_ovi(T_index = trans_idx, u = u, f_gen = cube$genotypesID[g[1]], m_gen = cube$genotypesID[g[2]], o_gen = cube$genotypesID[g[3]])
   }, g = cube_nonzero, trans_idx = transition_index_ovi, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 
+  return(transitions)
 }
 
 
@@ -44,7 +45,7 @@ generate_egg_advancement_transitions <- function(cube, u, nE) {
   genotype <- rep(x = g, times = nE)
 
   # generate transitions
-  mapply(FUN = function(g, e_stage) {
+  transitions <- mapply(FUN = function(g, e_stage) {
     if (e_stage == nE) {
       stage2 <- NULL
     } else {
@@ -53,6 +54,7 @@ generate_egg_advancement_transitions <- function(cube, u, nE) {
     make_transition_egg_adv(T_index = NA, u = u, e_gen = g, stage1 = e_stage, stage2 = stage2)
   }, g = genotype, e_stage = egg_stage, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 
+  return(transitions)
 }
 
 
@@ -76,8 +78,9 @@ generate_egg_mortality_transitions <- function(cube, u, nE) {
   genotype <- rep(x = g, times = nE)
 
   # generate transitions
-  mapply(FUN = function(g, e_stage) {
+  transitions <- mapply(FUN = function(g, e_stage) {
     make_transition_egg_mort(T_index = NA, u = u, e_gen = g, stage = e_stage)
   }, g = genotype, e_stage = egg_stage, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 
+  return(transitions)
 }
