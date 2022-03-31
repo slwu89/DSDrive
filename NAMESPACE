@@ -2,8 +2,13 @@
 
 export(make_lifecycle_parameters)
 export(spn_P)
+export(spn_Post)
+export(spn_Pre)
 export(spn_S)
 export(spn_T)
 importFrom(Matrix,drop0)
 importFrom(Matrix,sparseMatrix)
 importFrom(Matrix,t)
+importFrom(stats,setNames)
+importFrom(utils,setTxtProgressBar)
+importFrom(utils,txtProgressBar)

@@ -46,12 +46,7 @@ make_oviposit_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
   o_prob <- cube$ih[f_gen,m_gen,o_gen]
 
   # egg laying rate
-  beta <- ff_f(c = par$c_beta, mu = par$mu_beta, sigma = par$sigma_beta, s = cube$s[f_gen])
-
-  # safety check
-  if(check_double(o_prob) | check_double(beta)){
-    stop("cube$ih, cube$s, or beta missing from parameters list; called from 'make_oviposit_haz'")
-  }
+  beta <- make_beta(c = par$c_beta, mu = par$mu_beta, sigma = par$sigma_beta, s = cube$s[f_gen])
 
   # return the hazard function
   if(exact){
@@ -104,11 +99,6 @@ make_egg_mort_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
 
   # mortality rate
   delta <- ff_g(c = par$c_delta, mu = par$mu_delta, sigma = par$sigma_delta)
-
-  # safety check
-  if(check_double(muE)){
-    stop("muE missing from parameters list; called from 'make_egg_mort_haz'")
-  }
 
   # return the hazard function
   if(exact){
@@ -535,7 +525,7 @@ make_pupae_2female_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
 
 
 # pupae emerge to unmated female
-make_pupae_2unmated_haz <- function(t,u,m_ix,cube,params,exact = TRUE,tol = 1e-8){
+make_pupae_2unmated_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
 
   # assign here so that each newly generated closure has the right indices
   m_ix <- m_ix
@@ -543,7 +533,7 @@ make_pupae_2unmated_haz <- function(t,u,m_ix,cube,params,exact = TRUE,tol = 1e-8
   # if these are time-varying, chuck them into the returned function
   # nE is not allowed to vary with time
   omega_P <- ff_g(c = par$c_P, mu = par$mu_P, sigma = par$sigma_P)
-  nP <- params$nP
+  nP <- par$nP
 
   # which places have input arcs to this transition
   s <- t$s
@@ -709,12 +699,12 @@ make_female_mort_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
 # UNMATED FEMALE TRANSITIONS
 ################################################################################
 
-make_unmated_2female_haz <- function(t,u,m_ix,cube,params,exact = TRUE,tol = 1e-8){
+make_unmated_2female_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
 
   # assign here so that each newly generated closure has the right indices
   m_ix <- m_ix
 
-  nu <- params$nu
+  nu <- par$nu
 
   # which places have input arcs to this transition
   s <- t$s
@@ -777,6 +767,7 @@ make_unmated_2female_haz <- function(t,u,m_ix,cube,params,exact = TRUE,tol = 1e-
 # MAKE THE SPN HAZARDS (LAMBDA)
 ################################################################################
 
+#' @importFrom utils setTxtProgressBar txtProgressBar
 spn_hazards <- function(spn_P,spn_T,cube,par,exact=TRUE,tol=1e-12,pbar=TRUE){
 
   if(tol > 1e-6 & !exact){
@@ -828,13 +819,13 @@ spn_hazards <- function(spn_P,spn_T,cube,par,exact=TRUE,tol=1e-12,pbar=TRUE){
     } else if(type == "pupae_2female"){
       h[[t]] <- make_pupae_2female_haz(t = spn_T$T[[t]],u = u,m_ix = m_ix,cube = cube,par = par,exact = exact,tol = tol)
     } else if(type == "pupae_2unmated"){
-      h[[t]] <- make_pupae_2unmated_haz(t = spn_T$T[[t]],u = u,m_ix = m_ix,cube = cube,params = par,exact = exact,tol = tol)
+      h[[t]] <- make_pupae_2unmated_haz(t = spn_T$T[[t]],u = u,m_ix = m_ix,cube = cube,par = par,exact = exact,tol = tol)
     } else if(type == "male_mort"){
       h[[t]] <- make_male_mort_haz(t = spn_T$T[[t]],u = u,cube = cube,par = par,exact = exact,tol = tol)
     } else if(type == "female_mort" | type == "unmated_mort"){
       h[[t]] <- make_female_mort_haz(t = spn_T$T[[t]],u = u,cube = cube,par = par,exact = exact,tol = tol)
     } else if(type == "unmated_mate"){
-      h[[t]] <- make_unmated_2female_haz(t = spn_T$T[[t]],u = u,m_ix = m_ix,cube = cube,params = par,exact = exact,tol = tol)
+      h[[t]] <- make_unmated_2female_haz(t = spn_T$T[[t]],u = u,m_ix = m_ix,cube = cube,par = par,exact = exact,tol = tol)
     } else {
       stop(paste0("error in making hazard function for unknown class type: ",type))
     }

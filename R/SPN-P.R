@@ -15,6 +15,7 @@
 #' @title Build the set of places of the SPN
 #' @param parameters lifecycle parameters (named [list])
 #' @param cube an inheritance cube (named [list])
+#' @importFrom stats setNames
 #' @export
 spn_P <- function(parameters, cube){
 

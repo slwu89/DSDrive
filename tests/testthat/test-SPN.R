@@ -40,6 +40,11 @@ test_that("SPN places generation works, shape params > 1", {
 
     SPN_T <- spn_T(u = SPN_P$u, parameters = theta, cube = cube)
 
+    S <- spn_S(spn_P = SPN_P, spn_T = SPN_T)
+
+    expect_equal(nrow(S), length(u))
+    expect_equal(ncol(S), length(SPN_T$T))
+
 })
 
 
