@@ -13,12 +13,13 @@ Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 URL: https://github.com/slwu89/DSDrive https://slwu89.github.io/DSDrive/index.html
 BugReports: https://github.com/slwu89/DSDrive/issues
 Roxygen: list(markdown = TRUE)
 Imports:
-    MGDrivE
+    MGDrivE,
+    Matrix
 Suggests: 
     knitr,
     rmarkdown,
