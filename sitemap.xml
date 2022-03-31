@@ -25,18 +25,33 @@
     <loc>/reference/DSDrive.html</loc>
   </url>
   <url>
-    <loc>/reference/generate_egg_advancement_transitions.html</loc>
+    <loc>/reference/ff_f.html</loc>
   </url>
   <url>
-    <loc>/reference/generate_egg_mortality_transitions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_oviposition_transitions.html</loc>
+    <loc>/reference/ff_g.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/spn_P_lifecycle_node.html</loc>
+    <loc>/reference/make_beta.html</loc>
+  </url>
+  <url>
+    <loc>/reference/make_lifecycle_parameters.html</loc>
+  </url>
+  <url>
+    <loc>/reference/spn_P.html</loc>
+  </url>
+  <url>
+    <loc>/reference/spn_Post.html</loc>
+  </url>
+  <url>
+    <loc>/reference/spn_Pre.html</loc>
+  </url>
+  <url>
+    <loc>/reference/spn_S.html</loc>
+  </url>
+  <url>
+    <loc>/reference/spn_T.html</loc>
   </url>
 </urlset>
