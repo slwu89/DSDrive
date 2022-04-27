@@ -140,7 +140,7 @@ make_egg_adv_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
   # if these are time-varying, chuck them into the returned function
   # nE is not allowed to vary with time
   omega_E <- ff_g(c = par$c_E, mu = par$mu_E, sigma = par$sigma_E)
-  nE <- par$nE
+  k_E <- par$k_E
 
   # which places have input arcs to this transition
   s <- t$s
@@ -156,7 +156,7 @@ make_egg_adv_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
       function(t,M){
         if(w <= M[s]){
           temp <- par$temp(t)
-          return((1/omega_E(temp))*nE*M[s])
+          return((1/omega_E(temp))*k_E*M[s])
         } else {
           return(0)
         }
@@ -169,7 +169,7 @@ make_egg_adv_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
     return(
       function(t,M){
         temp <- par$temp(t)
-        haz <- (1/omega_E(temp))*nE*M[s]
+        haz <- (1/omega_E(temp))*k_E*M[s]
         if(haz < tol){
           return(0)
         } else {
@@ -247,7 +247,7 @@ make_larvae_adv_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
   # if these are time-varying, chuck them into the returned function
   # nE is not allowed to vary with time
   omega_L <- ff_g(c = par$c_L, mu = par$mu_L, sigma = par$sigma_L)
-  nL <- par$nL
+  k_L <- par$k_L
 
   # which places have input arcs to this transition
   s <- t$s
@@ -263,7 +263,7 @@ make_larvae_adv_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
       function(t,M){
         if(w <= M[s]){
           temp <- par$temp(t)
-          return((1/omega_L(temp))*nL*M[s])
+          return((1/omega_L(temp))*k_L*M[s])
         } else {
           return(0)
         }
@@ -276,7 +276,7 @@ make_larvae_adv_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
     return(
       function(t,M){
         temp <- par$temp(t)
-        haz <- (1/omega_L(temp))*nL*M[s]
+        haz <- (1/omega_L(temp))*k_L*M[s]
         if(haz < tol){
           return(0)
         } else {
@@ -343,9 +343,9 @@ make_pupae_mort_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
 make_pupae_adv_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
 
   # if these are time-varying, chuck them into the returned function
-  # nE is not allowed to vary with time
+  # k_P is not allowed to vary with time
   omega_P <- ff_g(c = par$c_P, mu = par$mu_P, sigma = par$sigma_P)
-  nP <- par$nP
+  k_P <- par$k_P
 
   # which places have input arcs to this transition
   s <- t$s
@@ -361,7 +361,7 @@ make_pupae_adv_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
       function(t,M){
         if(w <= M[s]){
           temp <- par$temp(t)
-          return((1/omega_P(temp))*nP*M[s])
+          return((1/omega_P(temp))*k_P*M[s])
         } else {
           return(0)
         }
@@ -374,7 +374,7 @@ make_pupae_adv_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
     return(
       function(t,M){
         temp <- par$temp(t)
-        haz <- (1/omega_P(temp))*nP*M[s]
+        haz <- (1/omega_P(temp))*k_P*M[s]
         if(haz < tol){
           return(0)
         } else {
@@ -396,9 +396,9 @@ make_pupae_adv_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
 make_pupae_2male_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
 
   # if these are time-varying, chuck them into the returned function
-  # nE is not allowed to vary with time
+  # k_P is not allowed to vary with time
   omega_P <- ff_g(c = par$c_P, mu = par$mu_P, sigma = par$sigma_P)
-  nP <- par$nP
+  k_P <- par$k_P
 
   # which places have input arcs to this transition
   s <- t$s
@@ -421,7 +421,7 @@ make_pupae_2male_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
       function(t,M){
         if(w <= M[s]){
           temp <- par$temp(t)
-          return((1/omega_P(temp))*nP*(1 - phi)*xi*M[s])
+          return((1/omega_P(temp))*k_P*(1 - phi)*xi*M[s])
         } else {
           return(0)
         }
@@ -434,7 +434,7 @@ make_pupae_2male_haz <- function(t,u,cube,par,exact = TRUE,tol = 1e-8){
     return(
       function(t,M){
         temp <- par$temp(t)
-        haz <- (1/omega_P(temp))*nP*(1 - phi)*xi*M[s]
+        haz <- (1/omega_P(temp))*k_P*(1 - phi)*xi*M[s]
         if(haz < tol){
           return(0)
         } else {
@@ -456,7 +456,7 @@ make_pupae_2female_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
   # if these are time-varying, chuck them into the returned function
   # nE is not allowed to vary with time
   omega_P <- ff_g(c = par$c_P, mu = par$mu_P, sigma = par$sigma_P)
-  nP <- par$nP
+  k_P <- par$k_P
 
   # which places have input arcs to this transition
   s <- t$s
@@ -467,12 +467,12 @@ make_pupae_2female_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
   # mating "weights"
   eta <- cube$eta
 
-  # xiF is also dependent on genotype
-  xi <- cube$xiF[p_gen]
-
   # phi is dependent on genotype
   p_gen <- strsplit(u[s[1]],"_")[[1]][2]
   phi <- cube$phi[p_gen]
+
+  # xiF is also dependent on genotype
+  xi <- cube$xiF[p_gen]
 
   # need to know the index of the male genotype
   m_gen <- strsplit(u[s[2]],"_")[[1]][2]
@@ -494,7 +494,7 @@ make_pupae_2female_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
           # mating propensity
           mate_p <- M[m_ix] * eta
           mate_p <- mate_p / sum(mate_p)
-          return((1/omega_P(temp))*nP*phi*xi*mate_p[j]*M[s[1]])
+          return((1/omega_P(temp))*k_P*phi*xi*mate_p[j]*M[s[1]])
         } else {
           return(0)
         }
@@ -510,7 +510,7 @@ make_pupae_2female_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
         # mating propensity
         mate_p <- M[m_ix] * eta
         mate_p <- mate_p / sum(mate_p)
-        haz <- (1/omega_P(temp))*nP*phi*xi*mate_p[j]*M[s[1]]
+        haz <- (1/omega_P(temp))*k_P*phi*xi*mate_p[j]*M[s[1]]
         if(haz < tol){
           return(0)
         } else {
@@ -533,7 +533,7 @@ make_pupae_2unmated_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
   # if these are time-varying, chuck them into the returned function
   # nE is not allowed to vary with time
   omega_P <- ff_g(c = par$c_P, mu = par$mu_P, sigma = par$sigma_P)
-  nP <- par$nP
+  k_P <- par$k_P
 
   # which places have input arcs to this transition
   s <- t$s
@@ -556,7 +556,7 @@ make_pupae_2unmated_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
       function(t,M){
         if((sum(M[m_ix]) == 0) & (w <= M[s])){
           temp <- par$temp(t)
-          return((1/omega_P(temp))*nP*phi*xi*M[s])
+          return((1/omega_P(temp))*k_P*phi*xi*M[s])
         } else {
           return(0)
         }
@@ -572,7 +572,7 @@ make_pupae_2unmated_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
           return(0)
         }
         temp <- par$temp(t)
-        haz <- (1/omega_P(temp))*nP*phi*xi*M[s]
+        haz <- (1/omega_P(temp))*k_P*phi*xi*M[s]
         if(haz < tol){
           return(0)
         } else {
@@ -767,7 +767,16 @@ make_unmated_2female_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
 # MAKE THE SPN HAZARDS (LAMBDA)
 ################################################################################
 
+#' @title Make hazards
+#' @param spn_P set of places
+#' @param spn_T set of transitions
+#' @param cube inheritance cube
+#' @param par parameters
+#' @param exact return exact or approxiamte hazards
+#' @param tol numeric tolerance to clip approximate hazards to zero
+#' @param pbar progress bar when making hazards
 #' @importFrom utils setTxtProgressBar txtProgressBar
+#' @export
 spn_hazards <- function(spn_P,spn_T,cube,par,exact=TRUE,tol=1e-12,pbar=TRUE){
 
   if(tol > 1e-6 & !exact){
