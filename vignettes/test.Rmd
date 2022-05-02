@@ -1,0 +1,84 @@
+---
+title: "test"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{test}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+library(DSDrive)
+library(MGDrivE)
+library(MGDrivE2)
+library(ggplot2)
+
+# the suzukii live in a paradise that is 20C every day 4ever
+temp <- function(t) {
+  return(20)
+}
+
+# the suzukii live in a place with sinusoidally driven temperature
+temp_sin <- function(t) {
+  rel <- (sin((t)/365*2*pi) + 1)/2
+  (20 * rel) + 10
+}
+
+cube <- MGDrivE::cubeMendelian()
+
+pars_suzukii <- make_lifecycle_parameters()
+pars_suzukii <- c(pars_suzukii, K = 1e3)
+pars_suzukii <- c(pars_suzukii, nu = 2)
+pars_suzukii <- c(pars_suzukii, temp = temp_sin)
+
+spn_p <- DSDrive::spn_P(parameters = pars_suzukii, cube = cube)
+spn_t <- DSDrive::spn_T(u = spn_p$u, parameters = pars_suzukii, cube = cube)
+S <- DSDrive::spn_S(spn_P = spn_p, spn_T = spn_t)
+
+exact_haz <- DSDrive::spn_hazards(spn_P = spn_p, spn_T = spn_t, cube = cube, par = pars_suzukii)
+haz <- list(hazards = exact_haz, flag = FALSE)
+
+x0 <- rep(0, length(spn_p$u))
+x0 <- setNames(x0, spn_p$u)
+x0["F_AA_AA"] <- 500
+x0["M_AA"] <- 100
+
+tmax <- 365
+dt <- 0.1
+
+PTS_out <- MGDrivE2::sim_trajectory_R(x0 = x0, tmax = tmax, dt = dt,
+                            dt_stoch = dt, S = S, hazards = haz,
+                            sampler = "tau", events = NULL, verbose = TRUE)
+
+fem_out <- DSDrive::suzukii_summarize_females(out = PTS_out$state, spn_P = spn_p)
+
+ggplot(data = fem_out) +
+  geom_line(aes(x=time,y=value,color=genotype)) +
+  facet_wrap(. ~ genotype, scales = "free")
+
+# test with a release
+r_times <- seq(from = 100, length.out = 5, by = 10)
+r_size <- 100
+events <- data.frame("var" = paste0("F_", cube$releaseType, "_", cube$wildType),
+                     "time" = r_times,
+                     "value" = r_size,
+                     "method" = "add",
+                     stringsAsFactors = FALSE)
+
+PTS_out_rel <- MGDrivE2::sim_trajectory_R(x0 = x0, tmax = tmax, dt = dt,
+                                      dt_stoch = dt, S = S, hazards = haz,
+                                      sampler = "tau", events = events, verbose = TRUE)
+
+fem_out_rel <- DSDrive::suzukii_summarize_females(out = PTS_out_rel$state, spn_P = spn_p)
+ggplot(data = fem_out_rel) +
+  geom_line(aes(x=time,y=value,color=genotype)) +
+  facet_wrap(. ~ genotype, scales = "free")
+
+```
