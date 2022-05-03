@@ -50,3 +50,39 @@ make_beta <- function(c, mu, sigma, s) {
     }
   )
 }
+
+#' @title Return females from simulation
+#' @description Collapse (sum) over male mate genotyp
+#' @param out an [array]
+#' @param spn_P set of places
+#' @export
+suzukii_summarize_females <- function(out,spn_P){
+
+  # get constants for later
+  gNames <- dimnames(spn_P$ix$females)[[1]]
+  numGeno <- dim(spn_P$ix$females)[1]
+  numRep <- dim(out)[3]
+
+  # setup data holder
+  fArray <- array(data = 0, dim = c(nrow(out),numGeno,numRep))
+
+  # loop over reps, nodes/genotypes, collapse females by mate
+  for(r in 1:numRep){
+    for(gen in 1:numGeno){
+      fArray[ ,gen,r] <- rowSums(out[,spn_P$ix$females[gen, ]+1,r])
+    }
+  }
+
+  # setup return df
+  retDF <- expand.grid("time" = out[ ,"time",1], "genotype" = gNames, "rep" = 1:numRep)
+
+  # fill count data
+  retDF$value <- as.vector(fArray)
+
+  # if 1 rep, remove repetition designation
+  if(numRep == 1){retDF$rep <- NULL}
+
+  # return data frame
+  return(retDF)
+}
+

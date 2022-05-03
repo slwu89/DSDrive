@@ -276,7 +276,7 @@ make_transition_pupae_emerge_m <- function(T_index,u,p_gen,nP){
   t$o_w <- 1
 
   # class of the transition
-  t$class <- "pupae_2m"
+  t$class <- "pupae_2male"
 
   # return the transition
   return(t)
@@ -312,7 +312,7 @@ make_transition_pupae_emerge_f <- function(T_index,u,p_gen,m_gen,nP){
   t$o_w <- c(1,1)
 
   # class of the transition
-  t$class <- "pupae_2f"
+  t$class <- "pupae_2female"
 
   # return the transition
   return(t)
@@ -442,7 +442,7 @@ make_transition_female_unmated_mort <- function(T_index,u,f_gen){
   t$o_w <- NaN
 
   # class of the transition
-  t$class <- "female_unmated_mort"
+  t$class <- "unmated_mort"
 
   # return the transition
   return(t)
@@ -475,7 +475,7 @@ make_transition_female_unmated_mate <- function(T_index,u,f_gen,m_gen){
   t$o_w <- c(1,1)
 
   # class of the transition
-  t$class <- "female_unmated_mate"
+  t$class <- "unmated_mate"
 
   # return the transition
   return(t)
