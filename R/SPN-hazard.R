@@ -464,12 +464,12 @@ make_pupae_2female_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
   # weights of those arcs
   w <- t$s_w
 
-  # mating "weights"
-  eta <- cube$eta
-
   # phi is dependent on genotype
   p_gen <- strsplit(u[s[1]],"_")[[1]][2]
   phi <- cube$phi[p_gen]
+
+  # mating "weights"
+  eta <- cube$eta[p_gen, ]
 
   # xiF is also dependent on genotype
   xi <- cube$xiF[p_gen]
@@ -477,11 +477,6 @@ make_pupae_2female_haz <- function(t,u,m_ix,cube,par,exact = TRUE,tol = 1e-8){
   # need to know the index of the male genotype
   m_gen <- strsplit(u[s[2]],"_")[[1]][2]
   j <- which(cube$genotypesID == m_gen)
-
-  # safety check
-  if(check_double(phi) | check_double(eta)){
-    stop("phi or eta missing from cube list; called from 'make_pupae_2female_haz'")
-  }
 
   # return the hazard function
   if(exact){
